@@ -44,6 +44,12 @@ func (w *weatherService) ByCity(cityName string) (string, error) {
 	return fmt.Sprintf("%s - Min %.2fF, Max %.2f", forecast.Str, tempMin.Num, tempMax.Num), nil
 }
 
+func NewWeatherServiceWire(apiKey string) WeatherService {
+	return &weatherService{
+		key: apiKey,
+	}
+}
+
 func NewWeatherService(options ...WeatherServiceOption) WeatherService {
 	service := new(weatherService)
 

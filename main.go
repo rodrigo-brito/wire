@@ -11,8 +11,7 @@ import (
 const apiKey = "9092670530cd215b30e2b787f0dce058"
 
 func main() {
-	service := NewWeatherService(WithAPIKey(apiKey))
-	server := NewServer(WithWealthService(service))
+	server := InitializeServer(apiKey)
 
 	router := chi.NewRouter()
 	router.Use(middleware.DefaultLogger)

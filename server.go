@@ -17,13 +17,21 @@ type server struct {
 
 func (s *server) CityHandler(w http.ResponseWriter, r *http.Request) {
 	cityName := r.URL.Query().Get("q")
-	result, err := s.service.ByCity(cityName)
-	if err != nil {
-		log.Print(err)
-		w.WriteHeader(http.StatusServiceUnavailable)
-		return
+	if len(cityName) > 0 {
+		result, err := s.service.ByCity(cityName)
+		if err != nil {
+			log.Print(err)
+			w.WriteHeader(http.StatusServiceUnavailable)
+			return
+		}
+		w.Write([]byte(result))
 	}
-	w.Write([]byte(result))
+}
+
+func NewServerWire(service WeatherService) Server {
+	return &server{
+		service: service,
+	}
 }
 
 func NewServer(options ...ServerOption) Server {
